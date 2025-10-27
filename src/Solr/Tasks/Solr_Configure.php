@@ -2,6 +2,9 @@
 namespace SilverStripe\FullTextSearch\Solr\Tasks;
 
 use Exception;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Command\Command;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\FullTextSearch\Solr\Solr;
 use SilverStripe\FullTextSearch\Solr\SolrIndex;
@@ -15,11 +18,27 @@ class Solr_Configure extends Solr_BuildTask
     private static $segment = 'Solr_Configure';
     protected $enabled = true;
 
-    public function run($request)
+    /**
+     * Configure the command
+     */
+    protected function configure()
     {
-        parent::run($request);
+        parent::configure();
+        $this
+            ->setName('solr:configure')
+            ->setDescription('Configure Solr indexes');
+    }
 
-        $this->extend('updateBeforeSolrConfigureTask', $request);
+    protected function execute(InputInterface $input, OutputInterface $output): int
+    {
+        return $this->run($input, $output);
+    }
+
+    public function run(InputInterface $input, OutputInterface $output): int
+    {
+        parent::run($input, $output);
+
+        $this->extend('updateBeforeSolrConfigureTask', $input, $output);
 
         // Find the IndexStore handler, which will handle uploading config files to Solr
         $store = $this->getSolrConfigStore();
@@ -37,10 +56,12 @@ class Solr_Configure extends Solr_BuildTask
         }
 
         if (isset($e)) {
-            exit(1);
+            return Command::FAILURE;
         }
 
-        $this->extend('updateAfterSolrConfigureTask', $request);
+        $this->extend('updateAfterSolrConfigureTask', $input, $output);
+        
+        return Command::SUCCESS;
     }
 
     /**

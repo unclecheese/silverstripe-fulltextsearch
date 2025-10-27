@@ -14,7 +14,7 @@ use SilverStripe\ORM\DataObject;
 use SilverStripe\ORM\FieldType\DBField;
 use SilverStripe\ORM\FieldType\DBString;
 use SilverStripe\ORM\Queries\SQLSelect;
-use SilverStripe\View\ViewableData;
+use SilverStripe\Model\ModelData;
 use SilverStripe\ORM\SS_List;
 
 /**
@@ -44,7 +44,7 @@ use SilverStripe\ORM\SS_List;
  * - Specifying update rules that are not extractable from metadata (because the values come from functions for instance)
  *
  */
-abstract class SearchIndex extends ViewableData
+abstract class SearchIndex extends ModelData
 {
     /**
      * Allows this index to hide a parent index. Specifies the name of a parent index to disable

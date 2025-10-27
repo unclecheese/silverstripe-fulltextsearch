@@ -5,7 +5,7 @@ namespace SilverStripe\FullTextSearch\Search\Extensions;
 use SilverStripe\Core\ClassInfo;
 use SilverStripe\FullTextSearch\Search\Updaters\SearchUpdater;
 use SilverStripe\FullTextSearch\Search\Variants\SearchVariant;
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 use SilverStripe\ORM\DataObject;
 
 /**
@@ -15,7 +15,7 @@ use SilverStripe\ORM\DataObject;
  * indexed.  This causes the object to be marked for deletion from the index.
  */
 
-class SearchUpdater_ObjectHandler extends DataExtension
+class SearchUpdater_ObjectHandler extends Extension
 {
     public function onAfterDelete()
     {
