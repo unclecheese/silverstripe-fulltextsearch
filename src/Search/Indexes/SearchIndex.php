@@ -16,6 +16,7 @@ use SilverStripe\ORM\FieldType\DBString;
 use SilverStripe\ORM\Queries\SQLSelect;
 use SilverStripe\Model\ModelData;
 use SilverStripe\ORM\SS_List;
+use SilverStripe\View\CastingService;
 
 /**
  * SearchIndex is the base index class. Each connector will provide a subclass of this that
@@ -213,7 +214,7 @@ abstract class SearchIndex extends ModelData
                     $singleton = singleton($dataclass);
 
                     if ($singleton->hasMethod("get$field") || $singleton->hasField($field)) {
-                        $type = $singleton->castingClass($field);
+                        $type = $singleton->castingHelper($field);
                         if (!$type) {
                             $type = 'String';
                         }
